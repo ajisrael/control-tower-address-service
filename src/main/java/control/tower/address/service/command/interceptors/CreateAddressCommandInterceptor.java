@@ -1,0 +1,51 @@
+package control.tower.address.service.command.interceptors;
+
+import control.tower.address.service.command.CreateAddressCommand;
+import control.tower.address.service.core.data.AddressLookupEntity;
+import control.tower.address.service.core.data.AddressLookupRepository;
+import org.axonframework.commandhandling.CommandMessage;
+import org.axonframework.messaging.MessageDispatchInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.function.BiFunction;
+
+@Component
+public class CreateAddressCommandInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateAddressCommandInterceptor.class);
+
+    private final AddressLookupRepository addressLookupRepository;
+
+    public CreateAddressCommandInterceptor(AddressLookupRepository addressLookupRepository) {
+        this.addressLookupRepository = addressLookupRepository;
+    }
+
+    @Override
+    public BiFunction<Integer, CommandMessage<?>, CommandMessage<?>> handle(
+            List<? extends CommandMessage<?>> messages) {
+        return (index, command) -> {
+
+            LOGGER.info(String.format("Intercepted command: %s", command.getPayloadType()));
+
+            if (CreateAddressCommand.class.equals(command.getPayloadType())) {
+
+                CreateAddressCommand createAddressCommand = (CreateAddressCommand) command.getPayload();
+
+                AddressLookupEntity addressLookupEntity = addressLookupRepository.findByAddressId(
+                        createAddressCommand.getAddressId());
+
+                if (addressLookupEntity != null) {
+                    throw new IllegalStateException(
+                            String.format("Address with id %s already exists",
+                                    createAddressCommand.getAddressId())
+                    );
+                }
+            }
+
+            return command;
+        };
+    }
+}
