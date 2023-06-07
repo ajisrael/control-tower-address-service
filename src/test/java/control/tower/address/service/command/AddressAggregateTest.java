@@ -1,14 +1,11 @@
 package control.tower.address.service.command;
 
+import control.tower.address.service.command.commands.CreateAddressCommand;
 import control.tower.address.service.core.events.AddressCreatedEvent;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.axonframework.test.aggregate.FixtureConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

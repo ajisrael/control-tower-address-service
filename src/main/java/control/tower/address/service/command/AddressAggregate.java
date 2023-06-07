@@ -1,5 +1,6 @@
 package control.tower.address.service.command;
 
+import control.tower.address.service.command.commands.CreateAddressCommand;
 import control.tower.address.service.core.events.AddressCreatedEvent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,6 @@ import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
-
-import static control.tower.address.service.core.utils.Helper.isNullOrBlank;
 
 @Aggregate
 @NoArgsConstructor
@@ -27,7 +26,7 @@ public class AddressAggregate {
 
     @CommandHandler
     public AddressAggregate(CreateAddressCommand command) {
-        validateCreateAddressCommand(command);
+        command.validate();
 
         AddressCreatedEvent event = AddressCreatedEvent.builder()
                 .addressId(command.getAddressId())
@@ -51,35 +50,5 @@ public class AddressAggregate {
         this.state = event.getState();
         this.postalCode = event.getPostalCode();
         this.country = event.getCountry();
-    }
-
-    private void validateCreateAddressCommand(CreateAddressCommand command) {
-        if (isNullOrBlank(command.getAddressId())) {
-            throw new IllegalArgumentException("Address id cannot be empty");
-        }
-
-        if (isNullOrBlank(command.getUserId())) {
-            throw new IllegalArgumentException("User id cannot be empty");
-        }
-
-        if (isNullOrBlank(command.getStreet())) {
-            throw new IllegalArgumentException("Street cannot be empty");
-        }
-
-        if (isNullOrBlank(command.getCity())) {
-            throw new IllegalArgumentException("City cannot be empty");
-        }
-
-        if (isNullOrBlank(command.getState())) {
-            throw new IllegalArgumentException("State cannot be empty");
-        }
-
-        if (isNullOrBlank(command.getPostalCode())) {
-            throw new IllegalArgumentException("Postal code cannot be empty");
-        }
-
-        if (isNullOrBlank(command.getCountry())) {
-            throw new IllegalArgumentException("Country cannot be empty");
-        }
     }
 }

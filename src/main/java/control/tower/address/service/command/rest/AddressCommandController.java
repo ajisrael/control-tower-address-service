@@ -1,6 +1,6 @@
 package control.tower.address.service.command.rest;
 
-import control.tower.address.service.command.CreateAddressCommand;
+import control.tower.address.service.command.commands.CreateAddressCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
