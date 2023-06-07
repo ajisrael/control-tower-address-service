@@ -27,7 +27,7 @@ public class AddressServiceApplication {
 
 	@Autowired
 	public void configure(EventProcessingConfigurer configurer) {
-		configurer.registerListenerInvocationErrorHandler("product-group",
+		configurer.registerListenerInvocationErrorHandler("address-group",
 				configuration -> new AddressServiceEventsErrorHandler());
 	}
 }
