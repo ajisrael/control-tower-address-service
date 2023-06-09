@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import static control.tower.address.service.core.utils.AddressHasher.createAddressHash;
+
 @Component
 public class CreateAddressCommandInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
 
@@ -28,9 +30,9 @@ public class CreateAddressCommandInterceptor implements MessageDispatchIntercept
             List<? extends CommandMessage<?>> messages) {
         return (index, command) -> {
 
-            LOGGER.info(String.format("Intercepted command: %s", command.getPayloadType()));
 
             if (CreateAddressCommand.class.equals(command.getPayloadType())) {
+                LOGGER.info(String.format("Intercepted command: %s", command.getPayloadType()));
 
                 CreateAddressCommand createAddressCommand = (CreateAddressCommand) command.getPayload();
 
@@ -42,6 +44,12 @@ public class CreateAddressCommandInterceptor implements MessageDispatchIntercept
                             String.format("Address with id %s already exists",
                                     createAddressCommand.getAddressId())
                     );
+                }
+
+                addressLookupEntity = addressLookupRepository.findByAddressHash(createAddressHash(createAddressCommand));
+
+                if (addressLookupEntity != null) {
+                    throw new IllegalStateException("This address already exists for this user");
                 }
             }
 

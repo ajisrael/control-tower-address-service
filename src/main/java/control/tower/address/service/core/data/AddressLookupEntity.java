@@ -22,4 +22,6 @@ public class AddressLookupEntity implements Serializable {
     @Id
     @Column(unique = true)
     private String addressId;
+    @Column(unique = true)
+    private String addressHash;
 }

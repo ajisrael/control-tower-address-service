@@ -1,6 +1,5 @@
 package control.tower.address.service.command;
 
-import control.tower.address.service.core.data.AddressEntity;
 import control.tower.address.service.core.data.AddressLookupEntity;
 import control.tower.address.service.core.events.AddressCreatedEvent;
 import control.tower.address.service.core.data.AddressLookupRepository;
@@ -10,6 +9,7 @@ import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
+import static control.tower.address.service.core.utils.AddressHasher.*;
 import static control.tower.core.utils.Helper.throwErrorIfEntityDoesNotExist;
 
 @Component
@@ -21,7 +21,7 @@ public class AddressLookupEventsHandler {
 
     @EventHandler
     public void on(AddressCreatedEvent event) {
-        addressLookupRepository.save(new AddressLookupEntity(event.getAddressId()));
+        addressLookupRepository.save(new AddressLookupEntity(event.getAddressId(), createAddressHash(event)));
     }
 
     @EventHandler
