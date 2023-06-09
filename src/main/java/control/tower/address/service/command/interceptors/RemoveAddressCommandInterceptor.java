@@ -7,12 +7,14 @@ import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.messaging.MessageDispatchInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.function.BiFunction;
 
 import static control.tower.core.utils.Helper.throwErrorIfEntityDoesNotExist;
 
+@Component
 public class RemoveAddressCommandInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RemoveAddressCommandInterceptor.class);

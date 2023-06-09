@@ -1,6 +1,7 @@
 package control.tower.address.service;
 
 import control.tower.address.service.command.interceptors.CreateAddressCommandInterceptor;
+import control.tower.address.service.command.interceptors.RemoveAddressCommandInterceptor;
 import control.tower.address.service.core.errorhandling.AddressServiceEventsErrorHandler;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.config.EventProcessingConfigurer;
@@ -19,9 +20,16 @@ public class AddressServiceApplication {
 	}
 
 	@Autowired
-	public void registerCreateProductCommandInterceptor(ApplicationContext context, CommandBus commandBus) {
+	public void registerCreateAddressCommandInterceptor(ApplicationContext context, CommandBus commandBus) {
 		commandBus.registerDispatchInterceptor(
 				context.getBean(CreateAddressCommandInterceptor.class)
+		);
+	}
+
+	@Autowired
+	public void registerRemoveAddressCommandInterceptor(ApplicationContext context, CommandBus commandBus) {
+		commandBus.registerDispatchInterceptor(
+				context.getBean(RemoveAddressCommandInterceptor.class)
 		);
 	}
 
