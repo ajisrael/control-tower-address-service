@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/addresses")
-public class AddressCommandController {
+public class AddressesCommandController {
 
     @Autowired
     private CommandGateway commandGateway;
