@@ -12,7 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-import static control.tower.core.utils.Helper.throwErrorIfEntityDoesNotExist;
+import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_WITH_ID_DOES_NOT_EXIST;
+import static control.tower.core.utils.Helper.throwExceptionIfEntityDoesNotExist;
 
 @Component
 @ProcessingGroup("address-group")
@@ -46,7 +47,7 @@ public class AddressEventsHandler {
     @EventHandler
     public void on(AddressRemovedEvent event) {
         AddressEntity addressEntity = addressRepository.findByAddressId(event.getAddressId());
-        throwErrorIfEntityDoesNotExist(addressEntity, String.format("Address %s does not exist", event.getAddressId()));
+        throwExceptionIfEntityDoesNotExist(addressEntity, String.format(ADDRESS_WITH_ID_DOES_NOT_EXIST, event.getAddressId()));
         addressRepository.delete(addressEntity);
     }
 }

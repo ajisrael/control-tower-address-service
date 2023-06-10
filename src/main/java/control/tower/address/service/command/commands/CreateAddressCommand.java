@@ -4,7 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import static control.tower.core.utils.Helper.isNullOrBlank;
+import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_ID_CANNOT_BE_EMPTY;
+import static control.tower.address.service.core.constants.ExceptionMessages.USER_ID_CANNOT_BE_EMPTY;
+import static control.tower.address.service.core.constants.ExceptionMessages.STREET_CANNOT_BE_EMPTY;
+import static control.tower.address.service.core.constants.ExceptionMessages.CITY_CANNOT_BE_EMPTY;
+import static control.tower.address.service.core.constants.ExceptionMessages.STATE_CANNOT_BE_EMPTY;
+import static control.tower.address.service.core.constants.ExceptionMessages.POSTAL_CODE_CANNOT_BE_EMPTY;
+import static control.tower.address.service.core.constants.ExceptionMessages.COUNTRY_CANNOT_BE_EMPTY;
+import static control.tower.core.utils.Helper.throwExceptionIfParameterIsEmpty;
 
 @Getter
 @Builder
@@ -20,32 +27,12 @@ public class CreateAddressCommand {
     private String country;
 
     public void validate() {
-        if (isNullOrBlank(this.getAddressId())) {
-            throw new IllegalArgumentException("Address id cannot be empty");
-        }
-
-        if (isNullOrBlank(this.getUserId())) {
-            throw new IllegalArgumentException("User id cannot be empty");
-        }
-
-        if (isNullOrBlank(this.getStreet())) {
-            throw new IllegalArgumentException("Street cannot be empty");
-        }
-
-        if (isNullOrBlank(this.getCity())) {
-            throw new IllegalArgumentException("City cannot be empty");
-        }
-
-        if (isNullOrBlank(this.getState())) {
-            throw new IllegalArgumentException("State cannot be empty");
-        }
-
-        if (isNullOrBlank(this.getPostalCode())) {
-            throw new IllegalArgumentException("Postal code cannot be empty");
-        }
-
-        if (isNullOrBlank(this.getCountry())) {
-            throw new IllegalArgumentException("Country cannot be empty");
-        }
+        throwExceptionIfParameterIsEmpty(this.getAddressId(), ADDRESS_ID_CANNOT_BE_EMPTY);
+        throwExceptionIfParameterIsEmpty(this.getUserId(), USER_ID_CANNOT_BE_EMPTY);
+        throwExceptionIfParameterIsEmpty(this.getStreet(), STREET_CANNOT_BE_EMPTY);
+        throwExceptionIfParameterIsEmpty(this.getCity(), CITY_CANNOT_BE_EMPTY);
+        throwExceptionIfParameterIsEmpty(this.getState(), STATE_CANNOT_BE_EMPTY);
+        throwExceptionIfParameterIsEmpty(this.getPostalCode(), POSTAL_CODE_CANNOT_BE_EMPTY);
+        throwExceptionIfParameterIsEmpty(this.getCountry(), COUNTRY_CANNOT_BE_EMPTY);
     }
 }

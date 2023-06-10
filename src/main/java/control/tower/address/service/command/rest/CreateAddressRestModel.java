@@ -9,16 +9,16 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class CreateAddressRestModel {
 
-    @NotBlank(message = "User id is a required field")
+    @NotBlank(message = "userId is a required field")
     private String userId;
-    @NotBlank(message = "Street is a required field")
+    @NotBlank(message = "street is a required field")
     private String street;
-    @NotBlank(message = "City is a required field")
+    @NotBlank(message = "city is a required field")
     private String city;
-    @NotBlank(message = "State is a required field")
+    @NotBlank(message = "state is a required field")
     private String state;
-    @NotBlank(message = "Postal code is a required field")
+    @NotBlank(message = "postalCode is a required field")
     private String postalCode;
-    @NotBlank(message = "Country is a required field")
+    @NotBlank(message = "country is a required field")
     private String country;
 }

@@ -6,6 +6,11 @@ import org.springframework.beans.BeanUtils;
 import static control.tower.core.utils.Helper.calculateSHA256Hash;
 
 public class AddressHasher {
+
+    private AddressHasher() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static String createAddressHash(Object address) {
         HashableAddress hashableAddress = new HashableAddress();
         BeanUtils.copyProperties(address, hashableAddress);

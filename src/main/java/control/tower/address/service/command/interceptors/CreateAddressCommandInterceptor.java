@@ -12,7 +12,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_ALREADY_EXISTS_FOR_USER;
+import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_WITH_ID_ALREADY_EXISTS;
 import static control.tower.address.service.core.utils.AddressHasher.createAddressHash;
+import static control.tower.core.constants.LogMessages.INTERCEPTED_COMMAND;
+import static control.tower.core.utils.Helper.throwExceptionIfEntityDoesExist;
 
 @Component
 public class CreateAddressCommandInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
@@ -30,27 +34,20 @@ public class CreateAddressCommandInterceptor implements MessageDispatchIntercept
             List<? extends CommandMessage<?>> messages) {
         return (index, command) -> {
 
-
             if (CreateAddressCommand.class.equals(command.getPayloadType())) {
-                LOGGER.info(String.format("Intercepted command: %s", command.getPayloadType()));
+                LOGGER.info(String.format(INTERCEPTED_COMMAND, command.getPayloadType()));
 
                 CreateAddressCommand createAddressCommand = (CreateAddressCommand) command.getPayload();
 
                 AddressLookupEntity addressLookupEntity = addressLookupRepository.findByAddressId(
                         createAddressCommand.getAddressId());
 
-                if (addressLookupEntity != null) {
-                    throw new IllegalStateException(
-                            String.format("Address with id %s already exists",
-                                    createAddressCommand.getAddressId())
-                    );
-                }
+                throwExceptionIfEntityDoesExist(addressLookupEntity,
+                        String.format(ADDRESS_WITH_ID_ALREADY_EXISTS, createAddressCommand.getAddressId()));
 
                 addressLookupEntity = addressLookupRepository.findByAddressHash(createAddressHash(createAddressCommand));
 
-                if (addressLookupEntity != null) {
-                    throw new IllegalStateException("This address already exists for this user");
-                }
+                throwExceptionIfEntityDoesExist(addressLookupEntity, ADDRESS_ALREADY_EXISTS_FOR_USER);
             }
 
             return command;

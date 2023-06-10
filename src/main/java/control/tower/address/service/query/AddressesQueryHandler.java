@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_WITH_ID_DOES_NOT_EXIST;
+
 @Component
 @AllArgsConstructor
 public class AddressesQueryHandler {
@@ -24,6 +26,6 @@ public class AddressesQueryHandler {
     @QueryHandler
     public AddressEntity findAddress(FindAddressQuery query) {
         return addressRepository.findById(query.getAddressId()).orElseThrow(
-                () -> new IllegalStateException(String.format("Address %s does not exist", query.getAddressId())));
+                () -> new IllegalStateException(String.format(ADDRESS_WITH_ID_DOES_NOT_EXIST, query.getAddressId())));
     }
 }
