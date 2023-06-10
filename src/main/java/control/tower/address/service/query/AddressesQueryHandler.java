@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static control.tower.core.utils.Helper.throwErrorIfEntityDoesNotExist;
-
 @Component
 @AllArgsConstructor
 public class AddressesQueryHandler {
@@ -25,11 +23,7 @@ public class AddressesQueryHandler {
 
     @QueryHandler
     public AddressEntity findAddress(FindAddressQuery query) {
-        AddressEntity addressEntity = addressRepository.findByAddressId(query.getAddressId());
-
-        throwErrorIfEntityDoesNotExist(addressEntity,
-                String.format("Address %s does not exist", query.getAddressId()));
-
-        return addressEntity;
+        return addressRepository.findById(query.getAddressId()).orElseThrow(
+                () -> new IllegalStateException(String.format("Address %s does not exist", query.getAddressId())));
     }
 }
