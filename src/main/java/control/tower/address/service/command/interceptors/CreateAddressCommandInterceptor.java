@@ -39,6 +39,8 @@ public class CreateAddressCommandInterceptor implements MessageDispatchIntercept
 
                 CreateAddressCommand createAddressCommand = (CreateAddressCommand) command.getPayload();
 
+                createAddressCommand.validate();
+
                 AddressLookupEntity addressLookupEntity = addressLookupRepository.findByAddressId(
                         createAddressCommand.getAddressId());
 

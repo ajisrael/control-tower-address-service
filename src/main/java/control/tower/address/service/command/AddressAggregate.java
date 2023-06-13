@@ -29,8 +29,6 @@ public class AddressAggregate {
 
     @CommandHandler
     public AddressAggregate(CreateAddressCommand command) {
-        command.validate();
-
         AddressCreatedEvent event = AddressCreatedEvent.builder()
                 .addressId(command.getAddressId())
                 .userId(command.getUserId())
@@ -46,8 +44,6 @@ public class AddressAggregate {
 
     @CommandHandler
     public void handle(RemoveAddressCommand command) {
-        command.validate();
-
         AddressRemovedEvent event = AddressRemovedEvent.builder()
                 .addressId(command.getAddressId())
                 .userId(userId)

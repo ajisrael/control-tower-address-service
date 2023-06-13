@@ -37,6 +37,8 @@ public class RemoveAddressCommandInterceptor implements MessageDispatchIntercept
 
                 RemoveAddressCommand removeAddressCommand = (RemoveAddressCommand) command.getPayload();
 
+                removeAddressCommand.validate();
+
                 AddressLookupEntity addressLookupEntity = addressLookupRepository.findByAddressId(
                         removeAddressCommand.getAddressId());
 
