@@ -37,8 +37,8 @@ class RemoveAddressCommandInterceptorTest {
 
         CommandMessage<RemoveAddressCommand> commandMessage = new GenericCommandMessage<>(validCommand);
 
-        AddressLookupEntity addressEntity = new AddressLookupEntity(ADDRESS_ID, createAddressHash(validCommand));
-        when(lookupRepository.findByAddressId(ADDRESS_ID)).thenReturn(addressEntity);
+        AddressLookupEntity addressLookupEntity = new AddressLookupEntity(ADDRESS_ID, createAddressHash(validCommand));
+        when(lookupRepository.findByAddressId(ADDRESS_ID)).thenReturn(addressLookupEntity);
 
         BiFunction<Integer, CommandMessage<?>, CommandMessage<?>> result = interceptor.handle(List.of(commandMessage));
 

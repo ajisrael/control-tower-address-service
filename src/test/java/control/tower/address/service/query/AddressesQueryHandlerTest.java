@@ -30,7 +30,7 @@ class AddressesQueryHandlerTest {
         queryHandler = new AddressesQueryHandler(addressRepository);
     }
 
-    private void populateAddress(AddressEntity addressEntity, String addressId, String userId, String street, String city, String state, String postalCode, String country) {
+    private void populateAddressEntity(AddressEntity addressEntity, String addressId, String userId, String street, String city, String state, String postalCode, String country) {
         addressEntity.setAddressId(addressId);
         addressEntity.setUserId(userId);
         addressEntity.setStreet(street);
@@ -44,10 +44,10 @@ class AddressesQueryHandlerTest {
     void shouldHandleFindAllAddressesQueryAndReturnAllAddresses() {
         // Arrange
         AddressEntity address1 = new AddressEntity();
-        populateAddress(address1, "address1", "user1", "123 Main St", "New York", "NY", "12345", "USA");
+        populateAddressEntity(address1, "address1", "user1", "123 Main St", "New York", "NY", "12345", "USA");
 
         AddressEntity address2 = new AddressEntity();
-        populateAddress(address2, "address2", "user2", "456 Elm St", "Los Angeles", "CA", "67890", "USA");
+        populateAddressEntity(address2, "address2", "user2", "456 Elm St", "Los Angeles", "CA", "67890", "USA");
 
         List<AddressEntity> addresses = new ArrayList<>();
         addresses.add(address1);
@@ -70,7 +70,7 @@ class AddressesQueryHandlerTest {
     void shouldHandleFindAddressQueryForExistingAddressIdAndReturnAddressEntity() {
         // Arrange
         AddressEntity address = new AddressEntity();
-        populateAddress(address, "addressId", "user1", "123 Main St", "New York", "NY", "12345", "USA");
+        populateAddressEntity(address, "addressId", "user1", "123 Main St", "New York", "NY", "12345", "USA");
 
         Mockito.when(addressRepository.findById(address.getAddressId())).thenReturn(Optional.of(address));
 
