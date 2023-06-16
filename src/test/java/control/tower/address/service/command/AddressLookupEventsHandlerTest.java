@@ -4,7 +4,6 @@ import control.tower.address.service.core.data.AddressLookupEntity;
 import control.tower.address.service.core.events.AddressCreatedEvent;
 import control.tower.address.service.core.data.AddressLookupRepository;
 import control.tower.address.service.core.events.AddressRemovedEvent;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -13,6 +12,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static control.tower.address.service.core.utils.AddressHasher.createAddressHash;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AddressLookupEventsHandlerTest {
 
@@ -56,8 +57,8 @@ class AddressLookupEventsHandlerTest {
         Mockito.verify(addressLookupRepository).save(captor.capture());
         AddressLookupEntity savedEntity = captor.getValue();
 
-        Assertions.assertEquals(event.getAddressId(), savedEntity.getAddressId());
-        Assertions.assertEquals(createAddressHash(event), savedEntity.getAddressHash());
+        assertEquals(event.getAddressId(), savedEntity.getAddressId());
+        assertEquals(createAddressHash(event), savedEntity.getAddressHash());
     }
 
     @Test
@@ -89,7 +90,7 @@ class AddressLookupEventsHandlerTest {
         Mockito.when(addressLookupRepository.findByAddressId(ADDRESS_ID)).thenReturn(null);
 
         // Act & Assert
-        Assertions.assertThrows(IllegalArgumentException.class, () -> addressLookupEventsHandler.on(event));
+        assertThrows(IllegalArgumentException.class, () -> addressLookupEventsHandler.on(event));
     }
 }
 

@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -56,7 +57,7 @@ class AddressEventsHandlerTest {
     }
 
     @Test
-    void shouldDeletesAddressEntityOnAddressRemovedEvent() {
+    void shouldDeleteAddressEntityOnAddressRemovedEvent() {
         // Arrange
         AddressRemovedEvent event = AddressRemovedEvent.builder().addressId(ADDRESS_ID).build();
 
@@ -73,14 +74,14 @@ class AddressEventsHandlerTest {
     }
 
     @Test
-    void shouldThrowExceptionOnAddressRemovedEventForNonExistingAddress() {
+    void shouldThrowExceptionOnAddressRemovedEventForNonExistingAddressId() {
         // Arrange
         AddressRemovedEvent event = AddressRemovedEvent.builder().addressId("nonExistingAddressId").build();
 
         Mockito.when(addressRepository.findByAddressId(event.getAddressId())).thenReturn(null);
 
         // Act & Assert
-        Assertions.assertThrows(IllegalArgumentException.class, () -> eventsHandler.on(event));
+        assertThrows(IllegalArgumentException.class, () -> eventsHandler.on(event));
     }
 
     @Test
@@ -89,7 +90,7 @@ class AddressEventsHandlerTest {
         Exception exception = new Exception("Test exception");
 
         // Act & Assert
-        Assertions.assertThrows(Exception.class, () -> eventsHandler.handle(exception));
+        assertThrows(Exception.class, () -> eventsHandler.handle(exception));
     }
 
     @Test

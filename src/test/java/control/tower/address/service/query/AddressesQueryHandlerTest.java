@@ -4,7 +4,6 @@ import control.tower.address.service.core.data.AddressEntity;
 import control.tower.address.service.core.data.AddressRepository;
 import control.tower.address.service.query.queries.FindAddressQuery;
 import control.tower.address.service.query.queries.FindAllAddressesQuery;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -14,6 +13,9 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AddressesQueryHandlerTest {
 
@@ -59,9 +61,9 @@ class AddressesQueryHandlerTest {
         List<AddressEntity> result = queryHandler.findAllAddresses(query);
 
         // Assert
-        Assertions.assertEquals(addresses.size(), result.size());
-        Assertions.assertEquals(addresses.get(0), result.get(0));
-        Assertions.assertEquals(addresses.get(1), result.get(1));
+        assertEquals(addresses.size(), result.size());
+        assertEquals(addresses.get(0), result.get(0));
+        assertEquals(addresses.get(1), result.get(1));
     }
 
     @Test
@@ -78,7 +80,7 @@ class AddressesQueryHandlerTest {
         AddressEntity result = queryHandler.findAddress(query);
 
         // Assert
-        Assertions.assertEquals(address, result);
+        assertEquals(address, result);
     }
 
     @Test
@@ -91,7 +93,7 @@ class AddressesQueryHandlerTest {
         FindAddressQuery query = new FindAddressQuery(addressId);
 
         // Act & Assert
-        Assertions.assertThrows(IllegalStateException.class, () -> queryHandler.findAddress(query));
+        assertThrows(IllegalStateException.class, () -> queryHandler.findAddress(query));
     }
 }
 
