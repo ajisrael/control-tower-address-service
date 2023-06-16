@@ -9,6 +9,7 @@ import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
+import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_LOOKUP_ENTITY_WITH_ID_DOES_NOT_EXIST;
 import static control.tower.address.service.core.utils.AddressHasher.*;
 import static control.tower.core.utils.Helper.throwExceptionIfEntityDoesNotExist;
 
@@ -27,7 +28,8 @@ public class AddressLookupEventsHandler {
     @EventHandler
     public void on(AddressRemovedEvent event) {
         AddressLookupEntity addressLookupEntity = addressLookupRepository.findByAddressId(event.getAddressId());
-        throwExceptionIfEntityDoesNotExist(addressLookupEntity, String.format("Address Lookup entity %s does not exist", event.getAddressId()));
+        throwExceptionIfEntityDoesNotExist(addressLookupEntity,
+                String.format(ADDRESS_LOOKUP_ENTITY_WITH_ID_DOES_NOT_EXIST, event.getAddressId()));
         addressLookupRepository.delete(addressLookupEntity);
     }
 }
