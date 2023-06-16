@@ -38,7 +38,7 @@ class CreateAddressCommandInterceptorTest {
     }
 
     @Test
-    void shouldProcessValidCommand() {
+    void shouldProcessValidCreateAddressCommand() {
         CreateAddressCommand validCommand = CreateAddressCommand.builder()
                 .addressId(ADDRESS_ID)
                 .userId(USER_ID)
