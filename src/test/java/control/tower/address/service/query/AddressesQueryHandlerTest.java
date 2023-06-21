@@ -4,6 +4,7 @@ import control.tower.address.service.core.data.AddressEntity;
 import control.tower.address.service.core.data.AddressRepository;
 import control.tower.address.service.query.queries.FindAddressQuery;
 import control.tower.address.service.query.queries.FindAllAddressesQuery;
+import control.tower.address.service.query.querymodels.AddressQueryModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -40,6 +41,16 @@ class AddressesQueryHandlerTest {
         addressEntity.setCountry(country);
     }
 
+    private void compareAddressEntityWithAddressQueryModel(AddressEntity addressEntity, AddressQueryModel addressQueryModel) {
+        assertEquals(addressEntity.getAddressId(), addressQueryModel.getAddressId());
+        assertEquals(addressEntity.getUserId(), addressQueryModel.getUserId());
+        assertEquals(addressEntity.getStreet(), addressQueryModel.getStreet());
+        assertEquals(addressEntity.getCity(), addressQueryModel.getCity());
+        assertEquals(addressEntity.getState(), addressQueryModel.getState());
+        assertEquals(addressEntity.getPostalCode(), addressQueryModel.getPostalCode());
+        assertEquals(addressEntity.getCountry(), addressQueryModel.getCountry());
+    }
+
     @Test
     void shouldHandleFindAllAddressesQueryAndReturnAllAddresses() {
         // Arrange
@@ -58,12 +69,12 @@ class AddressesQueryHandlerTest {
         FindAllAddressesQuery query = new FindAllAddressesQuery();
 
         // Act
-        List<AddressEntity> result = queryHandler.findAllAddresses(query);
+        List<AddressQueryModel> result = queryHandler.findAllAddresses(query);
 
         // Assert
         assertEquals(addresses.size(), result.size());
-        assertEquals(addresses.get(0), result.get(0));
-        assertEquals(addresses.get(1), result.get(1));
+        compareAddressEntityWithAddressQueryModel(addresses.get(0), result.get(0));
+        compareAddressEntityWithAddressQueryModel(addresses.get(1), result.get(1));
     }
 
     @Test
@@ -77,10 +88,10 @@ class AddressesQueryHandlerTest {
         FindAddressQuery query = new FindAddressQuery(address.getAddressId());
 
         // Act
-        AddressEntity result = queryHandler.findAddress(query);
+        AddressQueryModel result = queryHandler.findAddress(query);
 
         // Assert
-        assertEquals(address, result);
+        compareAddressEntityWithAddressQueryModel(address, result);
     }
 
     @Test

@@ -1,11 +1,11 @@
-package control.tower.address.service.query.rest;
+package control.tower.address.service.query.querymodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AddressRestModel {
+public class AddressQueryModel {
 
     private String addressId;
     private String userId;
