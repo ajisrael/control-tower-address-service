@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import static control.tower.address.service.core.constants.DomainConstants.API_GATEWAY_URL;
+import static control.tower.core.constants.DomainConstants.API_GATEWAY_URL;
 
 public class WebClientService {
 
