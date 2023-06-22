@@ -24,10 +24,6 @@ public class AddressServiceApplication {
 		commandBus.registerDispatchInterceptor(
 				context.getBean(CreateAddressCommandInterceptor.class)
 		);
-	}
-
-	@Autowired
-	public void registerRemoveAddressCommandInterceptor(ApplicationContext context, CommandBus commandBus) {
 		commandBus.registerDispatchInterceptor(
 				context.getBean(RemoveAddressCommandInterceptor.class)
 		);
@@ -38,4 +34,5 @@ public class AddressServiceApplication {
 		configurer.registerListenerInvocationErrorHandler("address-group",
 				configuration -> new AddressServiceEventsErrorHandler());
 	}
+
 }

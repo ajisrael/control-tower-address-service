@@ -15,6 +15,7 @@ import java.util.function.BiFunction;
 import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_ALREADY_EXISTS_FOR_USER;
 import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_WITH_ID_ALREADY_EXISTS;
 import static control.tower.address.service.core.utils.AddressHasher.createAddressHash;
+import static control.tower.address.service.core.utils.WebClientService.doesUserExist;
 import static control.tower.core.constants.LogMessages.INTERCEPTED_COMMAND;
 import static control.tower.core.utils.Helper.throwExceptionIfEntityDoesExist;
 
@@ -40,6 +41,14 @@ public class CreateAddressCommandInterceptor implements MessageDispatchIntercept
                 CreateAddressCommand createAddressCommand = (CreateAddressCommand) command.getPayload();
 
                 createAddressCommand.validate();
+
+                boolean userDoesExist = doesUserExist(createAddressCommand.getUserId());
+
+                if (!userDoesExist){
+                    String errorMessage = "User does not exist in users service, cannot create address";
+                    LOGGER.info(errorMessage);
+                    throw new IllegalArgumentException(errorMessage);
+                }
 
                 AddressLookupEntity addressLookupEntity = addressLookupRepository.findByAddressId(
                         createAddressCommand.getAddressId());
