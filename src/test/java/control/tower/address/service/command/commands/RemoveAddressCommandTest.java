@@ -1,5 +1,6 @@
 package control.tower.address.service.command.commands;
 
+import control.tower.core.commands.RemoveAddressCommand;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

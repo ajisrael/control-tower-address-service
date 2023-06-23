@@ -4,7 +4,7 @@ import control.tower.address.service.core.data.AddressEntity;
 import control.tower.address.service.core.data.AddressRepository;
 import control.tower.address.service.query.queries.FindAddressQuery;
 import control.tower.address.service.query.queries.FindAllAddressesQuery;
-import control.tower.address.service.query.querymodels.AddressQueryModel;
+import control.tower.core.query.querymodels.AddressQueryModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
