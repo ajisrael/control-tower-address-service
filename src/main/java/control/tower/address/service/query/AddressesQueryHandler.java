@@ -3,6 +3,7 @@ package control.tower.address.service.query;
 import control.tower.address.service.core.data.AddressEntity;
 import control.tower.address.service.core.data.AddressRepository;
 import control.tower.address.service.query.queries.FindAddressQuery;
+import control.tower.address.service.query.queries.FindAllAddressesForUserQuery;
 import control.tower.address.service.query.queries.FindAllAddressesQuery;
 import control.tower.address.service.query.querymodels.AddressQueryModel;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,17 @@ public class AddressesQueryHandler {
                 () -> new IllegalStateException(String.format(ADDRESS_WITH_ID_DOES_NOT_EXIST, query.getAddressId())));
 
         return convertAddresEntityToAddressQueryModel(addressEntity);
+    }
+
+    @QueryHandler
+    public List<AddressQueryModel> findAllAddressesForUser(FindAllAddressesForUserQuery query) {
+        List<AddressEntity> addressEntities = addressRepository.findByUserId(query.getUserid());
+
+        if (addressEntities.isEmpty()) {
+            throw new IllegalArgumentException("No addresses found for user: " + query.getUserid());
+        }
+
+        return convertAddressEntitiesToAddressQueryModels(addressEntities);
     }
 
     private List<AddressQueryModel> convertAddressEntitiesToAddressQueryModels(

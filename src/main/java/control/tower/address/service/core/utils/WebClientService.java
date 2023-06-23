@@ -17,7 +17,7 @@ public class WebClientService {
 
     public static boolean doesUserExist(String userId){
         ClientResponse response = webClient.get()
-                .uri("users-service?userId={userId}", userId)
+                .uri("user-service/users?userId={userId}", userId)
                 .exchange()
                 .block();
 

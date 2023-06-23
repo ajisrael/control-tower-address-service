@@ -1,6 +1,7 @@
 package control.tower.address.service.query.rest;
 
 import control.tower.address.service.query.queries.FindAddressQuery;
+import control.tower.address.service.query.queries.FindAllAddressesForUserQuery;
 import control.tower.address.service.query.queries.FindAllAddressesQuery;
 import control.tower.address.service.query.querymodels.AddressQueryModel;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -31,4 +32,9 @@ public class AddressesQueryController {
                 ResponseTypes.instanceOf(AddressQueryModel.class)).join();
     }
 
+    @GetMapping(params = "userId")
+    public List<AddressQueryModel> getAddressesForUser(String userId) {
+        return queryGateway.query(new FindAllAddressesForUserQuery(userId),
+                ResponseTypes.multipleInstancesOf(AddressQueryModel.class)).join();
+    }
 }
