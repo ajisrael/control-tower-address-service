@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FindAllAddressesForUserQuery {
 
-    private String userid;
+    private String userId;
 }
