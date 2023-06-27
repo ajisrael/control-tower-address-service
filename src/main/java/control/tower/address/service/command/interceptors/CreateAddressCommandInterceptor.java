@@ -15,7 +15,7 @@ import java.util.function.BiFunction;
 import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_ALREADY_EXISTS_FOR_USER;
 import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_WITH_ID_ALREADY_EXISTS;
 import static control.tower.address.service.core.utils.AddressHasher.createAddressHash;
-import static control.tower.address.service.core.utils.WebClientService.doesUserExist;
+import static control.tower.core.utils.WebClientService.doesUserExist;
 import static control.tower.core.constants.LogMessages.INTERCEPTED_COMMAND;
 import static control.tower.core.utils.Helper.throwExceptionIfEntityDoesExist;
 

@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_ID_CANNOT_BE_EMPTY;
+import static control.tower.core.constants.ExceptionMessages.ADDRESS_ID_CANNOT_BE_EMPTY;
 import static control.tower.address.service.core.constants.ExceptionMessages.USER_ID_CANNOT_BE_EMPTY;
 import static control.tower.address.service.core.constants.ExceptionMessages.STREET_CANNOT_BE_EMPTY;
 import static control.tower.address.service.core.constants.ExceptionMessages.CITY_CANNOT_BE_EMPTY;

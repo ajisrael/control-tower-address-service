@@ -3,7 +3,6 @@ package control.tower.address.service.command.interceptors;
 import control.tower.address.service.command.commands.CreateAddressCommand;
 import control.tower.address.service.core.data.AddressLookupEntity;
 import control.tower.address.service.core.data.AddressLookupRepository;
-import control.tower.address.service.core.utils.WebClientService;
 import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.commandhandling.GenericCommandMessage;
 import org.junit.jupiter.api.BeforeEach;

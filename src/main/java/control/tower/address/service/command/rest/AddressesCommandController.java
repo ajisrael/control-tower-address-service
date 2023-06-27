@@ -1,7 +1,7 @@
 package control.tower.address.service.command.rest;
 
 import control.tower.address.service.command.commands.CreateAddressCommand;
-import control.tower.address.service.command.commands.RemoveAddressCommand;
+import control.tower.core.commands.RemoveAddressCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

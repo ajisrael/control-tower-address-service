@@ -1,6 +1,6 @@
 package control.tower.address.service.command.interceptors;
 
-import control.tower.address.service.command.commands.RemoveAddressCommand;
+import control.tower.core.commands.RemoveAddressCommand;
 import control.tower.address.service.core.data.AddressLookupEntity;
 import control.tower.address.service.core.data.AddressLookupRepository;
 import org.axonframework.commandhandling.CommandMessage;

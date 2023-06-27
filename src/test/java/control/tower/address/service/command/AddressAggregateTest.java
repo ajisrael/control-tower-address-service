@@ -1,7 +1,7 @@
 package control.tower.address.service.command;
 
 import control.tower.address.service.command.commands.CreateAddressCommand;
-import control.tower.address.service.command.commands.RemoveAddressCommand;
+import control.tower.core.commands.RemoveAddressCommand;
 import control.tower.address.service.core.events.AddressCreatedEvent;
 import control.tower.address.service.core.events.AddressRemovedEvent;
 import org.axonframework.test.aggregate.AggregateTestFixture;

@@ -1,9 +1,9 @@
 package control.tower.address.service.query.rest;
 
 import control.tower.address.service.query.queries.FindAddressQuery;
-import control.tower.address.service.query.queries.FindAllAddressesForUserQuery;
+import control.tower.core.query.queries.FindAllAddressesForUserQuery;
 import control.tower.address.service.query.queries.FindAllAddressesQuery;
-import control.tower.address.service.query.querymodels.AddressQueryModel;
+import control.tower.core.query.querymodels.AddressQueryModel;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.beans.factory.annotation.Autowired;
