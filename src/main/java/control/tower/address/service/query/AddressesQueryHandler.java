@@ -3,6 +3,7 @@ package control.tower.address.service.query;
 import control.tower.address.service.core.data.AddressEntity;
 import control.tower.address.service.core.data.AddressRepository;
 import control.tower.address.service.query.queries.FindAddressQuery;
+import control.tower.core.query.queries.DoesAddressExistForUserQuery;
 import control.tower.core.query.queries.FindAllAddressesForUserQuery;
 import control.tower.address.service.query.queries.FindAllAddressesQuery;
 import control.tower.core.query.querymodels.AddressQueryModel;
@@ -44,6 +45,14 @@ public class AddressesQueryHandler {
         }
 
         return convertAddressEntitiesToAddressQueryModels(addressEntities);
+    }
+
+    @QueryHandler
+    public boolean doesAddressExistForUser(DoesAddressExistForUserQuery query) {
+        AddressEntity addressEntity = addressRepository.findById(query.getAddressId()).orElseThrow(
+                () -> new IllegalArgumentException("Address " + query.getAddressId() + " does not exist"));
+
+        return addressEntity.getUserId().equals(query.getUserId());
     }
 
     private List<AddressQueryModel> convertAddressEntitiesToAddressQueryModels(
