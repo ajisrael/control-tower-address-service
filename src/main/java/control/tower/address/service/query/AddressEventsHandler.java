@@ -47,7 +47,8 @@ public class AddressEventsHandler {
     @EventHandler
     public void on(AddressRemovedEvent event) {
         AddressEntity addressEntity = addressRepository.findByAddressId(event.getAddressId());
-        throwExceptionIfEntityDoesNotExist(addressEntity, String.format(ADDRESS_WITH_ID_DOES_NOT_EXIST, event.getAddressId()));
+        throwExceptionIfEntityDoesNotExist(addressEntity, String.format(
+                ADDRESS_WITH_ID_DOES_NOT_EXIST, event.getAddressId()));
         addressRepository.delete(addressEntity);
     }
 }

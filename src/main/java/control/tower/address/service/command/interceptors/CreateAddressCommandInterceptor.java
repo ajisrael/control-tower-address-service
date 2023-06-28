@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_ALREADY_EXISTS_FOR_USER;
-import static control.tower.address.service.core.constants.ExceptionMessages.ADDRESS_WITH_ID_ALREADY_EXISTS;
+import static control.tower.address.service.core.constants.ExceptionMessages.*;
 import static control.tower.address.service.core.utils.AddressHasher.createAddressHash;
 import static control.tower.core.utils.WebClientService.doesUserExist;
 import static control.tower.core.constants.LogMessages.INTERCEPTED_COMMAND;
@@ -45,9 +44,9 @@ public class CreateAddressCommandInterceptor implements MessageDispatchIntercept
                 boolean userDoesExist = doesUserExist(createAddressCommand.getUserId());
 
                 if (!userDoesExist){
-                    String errorMessage = "User does not exist in users service, cannot create address";
-                    LOGGER.info(errorMessage);
-                    throw new IllegalArgumentException(errorMessage);
+                    throw new IllegalArgumentException(
+                            String.format(USER_WIth_ID_DOES_NOT_EXIST_CANNOT_CREATE_ADDRESS,
+                                    createAddressCommand.getUserId()));
                 }
 
                 AddressLookupEntity addressLookupEntity = addressLookupRepository.findByAddressId(

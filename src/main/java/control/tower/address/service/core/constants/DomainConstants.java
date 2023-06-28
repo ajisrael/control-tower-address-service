@@ -8,4 +8,5 @@ public class DomainConstants {
 
     public static final String ADDRESS = "Address";
     public static final String ADDRESS_LOOKUP_ENTITY = "Address lookup entity";
+    public static final String ADDRESS_ENTITY = "Address entity";
 }
