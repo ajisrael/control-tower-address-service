@@ -8,12 +8,15 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/addresses")
+@Tag(name = "Address Command API")
 public class AddressesCommandController {
 
     @Autowired
@@ -22,6 +25,7 @@ public class AddressesCommandController {
     @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create address")
     public AddressCreatedRestModel createAddress(@Valid @RequestBody CreateAddressRestModel createAddressRestModel) {
         CreateAddressCommand createAddressCommand = CreateAddressCommand.builder()
                 .addressId(UUID.randomUUID().toString())
@@ -39,6 +43,7 @@ public class AddressesCommandController {
 
     @DeleteMapping(params = "addressId")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Remove address")
     public void removeAddress(String addressId) {
         RemoveAddressCommand removeAddressCommand = RemoveAddressCommand.builder()
                 .addressId(addressId)
