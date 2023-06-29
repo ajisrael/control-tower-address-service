@@ -1,14 +1,13 @@
 package control.tower.address.service.command.rest;
 
 import control.tower.address.service.command.commands.CreateAddressCommand;
+import control.tower.address.service.command.rest.responses.AddressCreatedRestModel;
+import control.tower.address.service.command.rest.requests.CreateAddressRestModel;
 import control.tower.core.commands.RemoveAddressCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -21,7 +20,9 @@ public class AddressesCommandController {
     private CommandGateway commandGateway;
 
     @PostMapping
-    public String createAddress(@Valid @RequestBody CreateAddressRestModel createAddressRestModel) {
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public AddressCreatedRestModel createAddress(@Valid @RequestBody CreateAddressRestModel createAddressRestModel) {
         CreateAddressCommand createAddressCommand = CreateAddressCommand.builder()
                 .addressId(UUID.randomUUID().toString())
                 .userId(createAddressRestModel.getUserId())
@@ -32,16 +33,18 @@ public class AddressesCommandController {
                 .country(createAddressRestModel.getCountry())
                 .build();
 
-        return commandGateway.sendAndWait(createAddressCommand);
+        String addressId = commandGateway.sendAndWait(createAddressCommand);
+        return AddressCreatedRestModel.builder().addressId(addressId).build();
     }
 
-    @DeleteMapping
-    public String removeAddress(@Valid @RequestBody RemoveAddressRestModel removeAddressRestModel) {
+    @DeleteMapping(params = "addressId")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeAddress(String addressId) {
         RemoveAddressCommand removeAddressCommand = RemoveAddressCommand.builder()
-                .addressId(removeAddressRestModel.getAddressId())
+                .addressId(addressId)
                 .build();
 
-        return commandGateway.sendAndWait(removeAddressCommand);
+        commandGateway.sendAndWait(removeAddressCommand);
     }
 }
 
