@@ -4,6 +4,9 @@ import control.tower.address.service.query.queries.FindAddressQuery;
 import control.tower.core.query.queries.FindAllAddressesForUserQuery;
 import control.tower.address.service.query.queries.FindAllAddressesQuery;
 import control.tower.core.query.querymodels.AddressQueryModel;
+import control.tower.core.rest.PageResponseType;
+import control.tower.core.rest.PaginationResponse;
+import control.tower.core.utils.PaginationUtility;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -13,6 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import static control.tower.core.constants.DomainConstants.DEFAULT_PAGE;
+import static control.tower.core.constants.DomainConstants.DEFAULT_PAGE_SIZE;
 
 @RestController
 @RequestMapping("/addresses")
@@ -26,26 +33,32 @@ public class AddressesQueryController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all addresses")
-    public List<AddressQueryModel> getAddresses() {
-        return queryGateway.query(new FindAllAddressesQuery(),
-                ResponseTypes.multipleInstancesOf(AddressQueryModel.class)).join();
+    public CompletableFuture<PaginationResponse<AddressQueryModel>> getAddresses(
+            @RequestParam(defaultValue = DEFAULT_PAGE) int currentPage,
+            @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int pageSize) {
+        FindAllAddressesQuery findAllAddressesQuery = FindAllAddressesQuery.builder()
+                .pageable(PaginationUtility.buildPageable(currentPage, pageSize))
+                .build();
+
+        return queryGateway.query(findAllAddressesQuery, new PageResponseType<>(AddressQueryModel.class))
+                .thenApply(PaginationUtility::toPageResponse);
     }
 
     @GetMapping(params = "addressId", path = "/id")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get address by id")
-    public AddressQueryModel getAddress(String addressId) {
+    public CompletableFuture<AddressQueryModel> getAddress(String addressId) {
         return queryGateway.query(new FindAddressQuery(addressId),
-                ResponseTypes.instanceOf(AddressQueryModel.class)).join();
+                ResponseTypes.instanceOf(AddressQueryModel.class));
     }
 
     @GetMapping(params = "userId", path = "/user")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all addresses for user by user id")
-    public List<AddressQueryModel> getAddressesForUser(String userId) {
+    public CompletableFuture<List<AddressQueryModel>> getAddressesForUser(String userId) {
         return queryGateway.query(new FindAllAddressesForUserQuery(userId),
-                ResponseTypes.multipleInstancesOf(AddressQueryModel.class)).join();
+                ResponseTypes.multipleInstancesOf(AddressQueryModel.class));
     }
 }
