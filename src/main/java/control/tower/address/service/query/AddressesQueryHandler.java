@@ -7,15 +7,19 @@ import control.tower.core.query.queries.DoesAddressExistForUserQuery;
 import control.tower.core.query.queries.FindAllAddressesForUserQuery;
 import control.tower.address.service.query.queries.FindAllAddressesQuery;
 import control.tower.core.query.querymodels.AddressQueryModel;
+import control.tower.core.utils.PaginationUtility;
 import lombok.AllArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static control.tower.address.service.core.constants.ExceptionMessages.*;
+import static control.tower.core.constants.DomainConstants.DEFAULT_PAGE;
+import static control.tower.core.constants.DomainConstants.DEFAULT_PAGE_SIZE;
 
 @Component
 @AllArgsConstructor
@@ -37,7 +41,7 @@ public class AddressesQueryHandler {
     }
 
     @QueryHandler
-    public List<AddressQueryModel> findAllAddressesForUser(FindAllAddressesForUserQuery query) {
+    public List<AddressQueryModel> findAllAddressesForUserAsList(FindAllAddressesForUserQuery query) {
         List<AddressEntity> addressEntities = addressRepository.findByUserId(query.getUserId());
 
         if (addressEntities.isEmpty()) {
@@ -45,6 +49,19 @@ public class AddressesQueryHandler {
         }
 
         return convertAddressEntitiesToAddressQueryModels(addressEntities);
+    }
+
+    @QueryHandler
+    public Page<AddressQueryModel> findAllAddressesForUserAsPage(FindAllAddressesForUserQuery query) {
+        Pageable pageable = query.getPageable();
+
+        if (pageable == null) {
+            pageable = PaginationUtility.buildPageable(
+                    Integer.parseInt(DEFAULT_PAGE), Integer.parseInt(DEFAULT_PAGE_SIZE));
+        }
+
+        return addressRepository.findByUserId(query.getUserId(), pageable)
+                .map(this::convertAddresEntityToAddressQueryModel);
     }
 
     @QueryHandler
