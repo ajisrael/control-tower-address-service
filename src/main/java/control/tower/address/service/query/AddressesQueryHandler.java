@@ -9,6 +9,7 @@ import control.tower.address.service.query.queries.FindAllAddressesQuery;
 import control.tower.core.query.querymodels.AddressQueryModel;
 import lombok.AllArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,9 +24,8 @@ public class AddressesQueryHandler {
     private final AddressRepository addressRepository;
 
     @QueryHandler
-    public List<AddressQueryModel> findAllAddresses(FindAllAddressesQuery query) {
-        List<AddressEntity> addressEntities = addressRepository.findAll();
-        return convertAddressEntitiesToAddressQueryModels(addressEntities);
+    public Page<AddressQueryModel> findAllAddresses(FindAllAddressesQuery query) {
+        return addressRepository.findAll(query.getPageable()).map(this::convertAddresEntityToAddressQueryModel);
     }
 
     @QueryHandler
