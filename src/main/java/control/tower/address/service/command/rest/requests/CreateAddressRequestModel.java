@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @NoArgsConstructor
-public class CreateAddressRestModel {
+public class CreateAddressRequestModel {
 
     @NotBlank(message = "userId is a required field")
     private String userId;

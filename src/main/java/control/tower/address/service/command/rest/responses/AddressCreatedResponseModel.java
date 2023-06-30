@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Builder
 @Getter
-public class AddressCreatedRestModel implements Serializable {
+public class AddressCreatedResponseModel implements Serializable {
 
     private String addressId;
 }

@@ -1,8 +1,8 @@
 package control.tower.address.service.command.rest;
 
 import control.tower.address.service.command.commands.CreateAddressCommand;
-import control.tower.address.service.command.rest.responses.AddressCreatedRestModel;
-import control.tower.address.service.command.rest.requests.CreateAddressRestModel;
+import control.tower.address.service.command.rest.responses.AddressCreatedResponseModel;
+import control.tower.address.service.command.rest.requests.CreateAddressRequestModel;
 import control.tower.core.commands.RemoveAddressCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +26,19 @@ public class AddressesCommandController {
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create address")
-    public AddressCreatedRestModel createAddress(@Valid @RequestBody CreateAddressRestModel createAddressRestModel) {
+    public AddressCreatedResponseModel createAddress(@Valid @RequestBody CreateAddressRequestModel createAddressRequestModel) {
         CreateAddressCommand createAddressCommand = CreateAddressCommand.builder()
                 .addressId(UUID.randomUUID().toString())
-                .userId(createAddressRestModel.getUserId())
-                .street(createAddressRestModel.getStreet())
-                .city(createAddressRestModel.getCity())
-                .state(createAddressRestModel.getState())
-                .postalCode(createAddressRestModel.getPostalCode())
-                .country(createAddressRestModel.getCountry())
+                .userId(createAddressRequestModel.getUserId())
+                .street(createAddressRequestModel.getStreet())
+                .city(createAddressRequestModel.getCity())
+                .state(createAddressRequestModel.getState())
+                .postalCode(createAddressRequestModel.getPostalCode())
+                .country(createAddressRequestModel.getCountry())
                 .build();
 
         String addressId = commandGateway.sendAndWait(createAddressCommand);
-        return AddressCreatedRestModel.builder().addressId(addressId).build();
+        return AddressCreatedResponseModel.builder().addressId(addressId).build();
     }
 
     @DeleteMapping(params = "addressId")
