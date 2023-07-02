@@ -44,10 +44,6 @@ public class AddressesQueryHandler {
     public List<AddressQueryModel> findAllAddressesForUserAsList(FindAllAddressesForUserQuery query) {
         List<AddressEntity> addressEntities = addressRepository.findByUserId(query.getUserId());
 
-        if (addressEntities.isEmpty()) {
-            throw new IllegalArgumentException(String.format(NO_ADDRESSES_FOUND_FOR_USER, query.getUserId()));
-        }
-
         return convertAddressEntitiesToAddressQueryModels(addressEntities);
     }
 
